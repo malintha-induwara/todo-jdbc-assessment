@@ -74,28 +74,24 @@ public class DueTaskFormController {
 
             // reason for using a for loop here is to add event handlers to the buttons in the table
             for (int i = 0; i < obList.size(); i++) {
+
+                final int index = i;
                 obList.get(i).getBtnComplete().setOnAction(event -> {
                     // here you need to write the code to mark the task as complete on database table
 
-                    int selectedIndex = tblDue.getSelectionModel().getSelectedIndex();
+                    int taskId = dtoList.get(index).getTaskId();
+                    markComplete(taskId);
 
-                    TasksDto dto= dtoList.get(selectedIndex);
-
-                    markComplete(dto.getTaskId());
-                    obList.remove(selectedIndex);
-                    tblDue.refresh();
+                    refreshTable();
 
                 });
 
                 obList.get(i).getBtnDelete().setOnAction(event -> {
 
-                    int selectedIndex = tblDue.getSelectionModel().getSelectedIndex();
-                    TasksDto dto= dtoList.get(selectedIndex);
+                    int taskId = dtoList.get(index).getTaskId();
+                    deleteTask(taskId);
 
-                    deleteTask(dto.getTaskId());
-
-                    obList.remove(selectedIndex);
-                    tblDue.refresh();
+                    refreshTable();
 
                     // here you need to write the code to delete the task from FX table and database table as well.
 
@@ -106,6 +102,10 @@ public class DueTaskFormController {
         catch (Exception e){
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
+    }
+
+    private void refreshTable() {
+        loadDueTasks();
     }
 
     private void deleteTask(int taskId) {
