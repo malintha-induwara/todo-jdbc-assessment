@@ -42,8 +42,7 @@ public class LoginFormController {
                 return;
             }
 
-            String email= usersModel.getLoggedUserEmail(userName);
-            UsersModel.loggedUserEmail = email;
+            UsersModel.loggedUserEmail = userName;
             navigateToMainWindow();
 
         }catch (SQLException e){
