@@ -59,5 +59,33 @@ public class TasksModel {
 
         return dtoList;
     }
+
+    public boolean markComplete(int taskId) throws SQLException {
+
+       Connection connection = DbConnection.getInstance().getConnection();
+
+         String sql = "UPDATE tasks SET isCompleted = 1 WHERE task_Id = ?";
+
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            pstm.setInt(1, taskId);
+
+
+            return pstm.executeUpdate() > 0;
+
+    }
+
+    public boolean deleteTask(int taskId) throws SQLException {
+
+       Connection connection = DbConnection.getInstance().getConnection();
+
+         String sql = "DELETE FROM tasks WHERE task_Id = ?";
+
+         PreparedStatement pstm = connection.prepareStatement(sql);
+
+         pstm.setInt(1, taskId);
+
+         return pstm.executeUpdate() > 0;
+
+    }
 }
 

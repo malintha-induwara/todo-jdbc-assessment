@@ -77,13 +77,28 @@ public class DueTaskFormController {
                 obList.get(i).getBtnComplete().setOnAction(event -> {
                     // here you need to write the code to mark the task as complete on database table
 
+                    int selectedIndex = tblDue.getSelectionModel().getSelectedIndex();
 
-                    System.out.println("Complete button clicked");
+                    TasksDto dto= dtoList.get(selectedIndex);
+
+                    markComplete(dto.getTaskId());
+                    obList.remove(selectedIndex);
+                    tblDue.refresh();
+
                 });
 
                 obList.get(i).getBtnDelete().setOnAction(event -> {
+
+                    int selectedIndex = tblDue.getSelectionModel().getSelectedIndex();
+                    TasksDto dto= dtoList.get(selectedIndex);
+
+                    deleteTask(dto.getTaskId());
+
+                    obList.remove(selectedIndex);
+                    tblDue.refresh();
+
                     // here you need to write the code to delete the task from FX table and database table as well.
-                    System.out.println("Delete button clicked");
+
                 });
             }
             tblDue.setItems(obList);
@@ -91,5 +106,40 @@ public class DueTaskFormController {
         catch (Exception e){
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
+    }
+
+    private void deleteTask(int taskId) {
+
+        try{
+            boolean isDeleted = tasksModel.deleteTask(taskId);
+
+            if (isDeleted){
+                new Alert(Alert.AlertType.CONFIRMATION, "Task is deleted").show();
+            }
+
+        }catch (SQLException e){
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+
+
+    }
+
+    private void markComplete(int taskId) {
+
+        try {
+
+            boolean isMarked = tasksModel.markComplete(taskId);
+
+            if (isMarked){
+                new Alert(Alert.AlertType.CONFIRMATION, "Task is marked as complete").show();
+            }
+
+        }
+        catch (SQLException e){
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+
+        }
+
+
     }
 }
