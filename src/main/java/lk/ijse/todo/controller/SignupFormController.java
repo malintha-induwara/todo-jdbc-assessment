@@ -11,12 +11,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.todo.dto.UsersDto;
+import lk.ijse.todo.model.UsersModel;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class SignupFormController {
     @FXML
@@ -31,8 +35,32 @@ public class SignupFormController {
     @FXML
     private TextField txtUserName;
 
+
+    private final UsersModel usersModel = new UsersModel();
+
     @FXML
     void btnRegisterOnAction(ActionEvent event) {
+
+        String userName=txtUserName.getText();
+        String email=txtEmail.getText();
+        String pw=txtPw.getText();
+
+        UsersDto dto = new UsersDto(email,userName,pw);
+
+        try{
+            boolean isSaved = usersModel.saveUser(dto);
+
+            if (isSaved){
+                new Alert(Alert.AlertType.CONFIRMATION,"User is Saved").show();
+            }
+
+        }
+        catch (SQLException e){
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        }
+
+
+
     }
 
     @FXML

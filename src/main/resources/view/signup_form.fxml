@@ -36,7 +36,7 @@
       <PasswordField fx:id="txtPw" layoutX="31.0" layoutY="282.0" prefHeight="35.0" prefWidth="276.0" />
       <Label layoutX="44.0" layoutY="382.0" text="Already have an account?" textFill="#636e72" />
       <Hyperlink layoutX="217.0" layoutY="379.0" onAction="#hyperLoginHereOnAction" text="Login here" />
-      <JFXButton layoutX="33.0" layoutY="335.0" prefHeight="35.0" prefWidth="276.0" style="-fx-background-color: #1abc9c;" text="create account" textFill="WHITE">
+      <JFXButton layoutX="33.0" layoutY="335.0" onAction="#btnRegisterOnAction" prefHeight="35.0" prefWidth="276.0" style="-fx-background-color: #1abc9c;" text="create account" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
