@@ -5,7 +5,10 @@ import lk.ijse.todo.dto.TasksDto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TasksModel {
 
@@ -25,6 +28,36 @@ public class TasksModel {
 
         return pstm.executeUpdate() > 0;
 
+    }
+
+    public List<TasksDto> loadDueTasks(String date) throws SQLException {
+
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT * FROM tasks WHERE dueDate < ? AND isCompleted = 0";
+
+        PreparedStatement pstm = connection.prepareStatement(sql);
+        pstm.setString(1, date);
+
+        ResultSet resultSet = pstm.executeQuery();
+
+        List<TasksDto> dtoList = new ArrayList<>();
+
+        while (resultSet.next()){
+
+            TasksDto dto = new TasksDto(
+                    resultSet.getInt(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getInt(5)
+            );
+
+            dtoList.add(dto);
+
+        }
+
+        return dtoList;
     }
 }
 

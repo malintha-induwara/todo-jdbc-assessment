@@ -9,12 +9,17 @@ import com.sun.javafx.scene.control.GlobalMenuAdapter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.todo.dto.TasksDto;
 import lk.ijse.todo.dto.tm.DueTm;
+import lk.ijse.todo.model.TasksModel;
 
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +43,8 @@ public class DueTaskFormController {
     @FXML
     private TableView<DueTm> tblDue;
 
+    private  final TasksModel tasksModel = new TasksModel();
+
     public void initialize(){
         setCellValueFactory();
         loadDueTasks();
@@ -51,26 +58,38 @@ public class DueTaskFormController {
     }
 
     private void loadDueTasks() {
-        ObservableList<DueTm> obList = FXCollections.observableArrayList();
 
-        // here you need to write the code to load the tasks from database table and add them to the obList.
-        // this is just a sample data set.
-        obList.add(new DueTm("Go get a hair cut", "2023-11-23"));
-        obList.add(new DueTm("Ready for the final exam", "2023-12-03"));
-        obList.add(new DueTm("Meet old school friend", "2023-12-15"));
+        try {
+            ObservableList<DueTm> obList = FXCollections.observableArrayList();
 
-        // reason for using a for loop here is to add event handlers to the buttons in the table
-        for (int i = 0; i < obList.size(); i++) {
-            obList.get(i).getBtnComplete().setOnAction(event -> {
-                // here you need to write the code to mark the task as complete on database table
-                System.out.println("Complete button clicked");
-            });
+            // here you need to write the code to load the tasks from database table and add them to the obList.
+            // this is just a sample data set.
 
-            obList.get(i).getBtnDelete().setOnAction(event -> {
-                // here you need to write the code to delete the task from FX table and database table as well.
-                System.out.println("Delete button clicked");
-            });
+            List<TasksDto> dtoList = tasksModel.loadDueTasks(String.valueOf(LocalDate.now()));
+
+            for (TasksDto dto : dtoList) {
+                DueTm tm =new DueTm(dto.getDescription(), dto.getDueDate());
+                obList.add(tm);
+            }
+
+            // reason for using a for loop here is to add event handlers to the buttons in the table
+            for (int i = 0; i < obList.size(); i++) {
+                obList.get(i).getBtnComplete().setOnAction(event -> {
+                    // here you need to write the code to mark the task as complete on database table
+
+
+                    System.out.println("Complete button clicked");
+                });
+
+                obList.get(i).getBtnDelete().setOnAction(event -> {
+                    // here you need to write the code to delete the task from FX table and database table as well.
+                    System.out.println("Delete button clicked");
+                });
+            }
+            tblDue.setItems(obList);
         }
-        tblDue.setItems(obList);
+        catch (Exception e){
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 }
