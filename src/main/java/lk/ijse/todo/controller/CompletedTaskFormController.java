@@ -58,15 +58,11 @@ public class CompletedTaskFormController {
 
             for (int i = 0; i < obList.size(); i++) {
                 final  int index = i;
-                // reason for using a for loop here is to add event handlers to the buttons in the table
                 obList.get(i).getBtnDelete().setOnAction(event -> {
-                    // here you need to write the code to delete the task from FX table and database table as well.
 
                     int taskId = dtoList.get(index).getTaskId();
                     deleteTask(taskId);
-
                     refreshTable();
-
 
                 });
             }
@@ -88,14 +84,10 @@ public class CompletedTaskFormController {
             if (isDeleted){
                 new Alert(Alert.AlertType.CONFIRMATION, "Task is deleted").show();
             }
-
         }
         catch (SQLException e){
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
-
-
-
     }
 
     private void setCellValueFactory() {

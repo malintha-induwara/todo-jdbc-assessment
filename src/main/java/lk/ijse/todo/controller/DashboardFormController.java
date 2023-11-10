@@ -30,7 +30,6 @@ public class DashboardFormController {
     }
 
     private void setCompletedTasksCount() {
-
         try {
             List<TasksDto> dtoList = tasksModel.loadCompletedTasks();
             lblCompleted.setText(String.valueOf(dtoList.size()));
@@ -41,7 +40,6 @@ public class DashboardFormController {
     }
 
     private void setDueTasksCount() {
-
         try {
             List<TasksDto> dtoList = tasksModel.loadDueTasks(String.valueOf(LocalDate.now()));
             lblDue.setText(String.valueOf(dtoList.size()));

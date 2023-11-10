@@ -45,6 +45,12 @@ public class SignupFormController {
         String email=txtEmail.getText();
         String pw=txtPw.getText();
 
+        if (userName.isEmpty()  || email.isEmpty() || pw.isEmpty()){
+            new Alert(Alert.AlertType.ERROR,"Fill the Details").show();
+            txtUserName.requestFocus();
+            return;
+        }
+
         UsersDto dto = new UsersDto(email,userName,pw);
 
         try{

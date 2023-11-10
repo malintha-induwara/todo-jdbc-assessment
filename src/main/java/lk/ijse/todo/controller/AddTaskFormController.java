@@ -33,32 +33,41 @@ public class AddTaskFormController {
     @FXML
     void btnAddTaskOnAction(ActionEvent event) {
 
-        int id = Integer.parseInt(txtId.getText());
-        String email = UsersModel.loggedUserEmail;
-        String description = txtDescription.getText();
-        String dueDate = txtDate.getValue().toString();
-        int isCompleted=0;
-
-        TasksDto dto = new TasksDto(id,email,description,dueDate,isCompleted);
-
-
         try {
+            int id = Integer.parseInt(txtId.getText());
+            String email = UsersModel.loggedUserEmail;
+            String description = txtDescription.getText();
+            String dueDate = txtDate.getValue().toString();
+            int isCompleted = 0;
 
-            boolean isSaved = tasksModel.saveTask(dto);
-            clearFields();
 
-            if (isSaved){
+            if (description.isEmpty() || dueDate.isEmpty()) {
+                new Alert(Alert.AlertType.ERROR, "Fill the Details").show();
+                txtDescription.requestFocus();
+                return;
+            }
 
-                new Alert(Alert.AlertType.CONFIRMATION,"Task is Saved").show();
 
+            TasksDto dto = new TasksDto(id, email, description, dueDate, isCompleted);
+
+            try {
+
+                boolean isSaved = tasksModel.saveTask(dto);
+                clearFields();
+
+                if (isSaved) {
+                    new Alert(Alert.AlertType.CONFIRMATION, "Task is Saved").show();
+                }
+
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
             }
 
         }
-        catch (SQLException e){
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        catch (Exception e){
+            new Alert(Alert.AlertType.ERROR, "Fill the Details").show();
+            txtDescription.requestFocus();
         }
-
-
     }
 
     private void clearFields() {
