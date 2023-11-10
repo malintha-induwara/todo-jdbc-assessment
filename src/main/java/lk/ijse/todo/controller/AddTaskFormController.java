@@ -41,7 +41,7 @@ public class AddTaskFormController {
             int isCompleted = 0;
 
 
-            if (description.isEmpty() || dueDate.isEmpty()) {
+            if (description.isEmpty()) {
                 new Alert(Alert.AlertType.ERROR, "Fill the Details").show();
                 return;
             }
@@ -64,8 +64,7 @@ public class AddTaskFormController {
 
         }
         catch (Exception e){
-            new Alert(Alert.AlertType.ERROR, "Fill the Id Details").show();
-            txtId.requestFocus();
+            new Alert(Alert.AlertType.ERROR, "Fill the  Details Correctly").show();
         }
     }
 
