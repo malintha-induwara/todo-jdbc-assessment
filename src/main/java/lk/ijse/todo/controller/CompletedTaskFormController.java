@@ -8,10 +8,17 @@ package lk.ijse.todo.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.todo.dto.TasksDto;
 import lk.ijse.todo.dto.tm.CompleteTm;
+import lk.ijse.todo.model.TasksModel;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CompletedTaskFormController {
     @FXML
@@ -29,28 +36,38 @@ public class CompletedTaskFormController {
     @FXML
     private TableView<CompleteTm> tblComplete;
 
+    private TasksModel tasksModel = new TasksModel();
     public void initialize(){
         setCellValueFactory();
         loadCompletedTasks();
     }
 
     private void loadCompletedTasks() {
-        ObservableList<CompleteTm> obList = FXCollections.observableArrayList();
 
-        // here you need to write the code to load the tasks from database table and add them to the obList.
-        // this is just a sample data set.
-        obList.add(new CompleteTm("Give birth day party", "2023-09-10"));
-        obList.add(new CompleteTm("Service vehicle", "2022-12-24"));
 
-        for (int i = 0; i < obList.size(); i++) {
-            // reason for using a for loop here is to add event handlers to the buttons in the table
-            obList.get(i).getBtnDelete().setOnAction(event -> {
-                // here you need to write the code to delete the task from FX table and database table as well.
-                System.out.printf("Delete button clicked!");
-            });
+        try {
+            ObservableList<CompleteTm> obList = FXCollections.observableArrayList();
+
+
+            List<TasksDto> dtoList = tasksModel.loadCompletedTasks();
+
+            for (TasksDto dto : dtoList) {
+                obList.add(new CompleteTm(dto.getDescription(), dto.getDueDate()));
+            }
+
+
+            for (int i = 0; i < obList.size(); i++) {
+                // reason for using a for loop here is to add event handlers to the buttons in the table
+                obList.get(i).getBtnDelete().setOnAction(event -> {
+                    // here you need to write the code to delete the task from FX table and database table as well.
+                    System.out.printf("Delete button clicked!");
+                });
+            }
+
+            tblComplete.setItems(obList);
+        }catch (SQLException e){
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
-
-        tblComplete.setItems(obList);
     }
 
     private void setCellValueFactory() {

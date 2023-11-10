@@ -2,6 +2,7 @@ package lk.ijse.todo.model;
 
 import lk.ijse.todo.db.DbConnection;
 import lk.ijse.todo.dto.TasksDto;
+import lk.ijse.todo.dto.tm.CompleteTm;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -86,6 +87,35 @@ public class TasksModel {
 
          return pstm.executeUpdate() > 0;
 
+    }
+
+    public List<TasksDto> loadCompletedTasks() throws SQLException {
+
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT * FROM tasks WHERE isCompleted = 1";
+
+        PreparedStatement pstm = connection.prepareStatement(sql);
+
+        ResultSet resultSet = pstm.executeQuery();
+
+        List<TasksDto> dtoList = new ArrayList<>();
+
+        while (resultSet.next()){
+
+            TasksDto dto = new TasksDto(
+                    resultSet.getInt(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getInt(5)
+            );
+
+            dtoList.add(dto);
+
+        }
+
+        return dtoList;
     }
 }
 
