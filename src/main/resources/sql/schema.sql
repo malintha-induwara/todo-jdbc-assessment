@@ -14,5 +14,5 @@ create table tasks(
      description text not null,
      dueDate date not null,
      isCompleted tinyint not null,
-     foreign key (email) references users(email));
+     foreign key (email) references users(email) on update cascade on delete cascade);
 

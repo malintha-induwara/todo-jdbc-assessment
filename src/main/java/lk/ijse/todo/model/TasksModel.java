@@ -35,10 +35,11 @@ public class TasksModel {
 
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "SELECT * FROM tasks WHERE dueDate < ? AND isCompleted = 0";
+        String sql = "SELECT * FROM tasks WHERE dueDate < ? AND isCompleted = 0 AND email = ?";
 
         PreparedStatement pstm = connection.prepareStatement(sql);
         pstm.setString(1, date);
+        pstm.setString(2, UsersModel.loggedUserEmail);
 
         ResultSet resultSet = pstm.executeQuery();
 
@@ -93,9 +94,10 @@ public class TasksModel {
 
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "SELECT * FROM tasks WHERE isCompleted = 1";
+        String sql = "SELECT * FROM tasks WHERE isCompleted = 1 AND email = ?";
 
         PreparedStatement pstm = connection.prepareStatement(sql);
+        pstm.setString(1,UsersModel.loggedUserEmail);
 
         ResultSet resultSet = pstm.executeQuery();
 
