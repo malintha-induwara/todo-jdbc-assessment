@@ -47,7 +47,6 @@ public class SignupFormController {
 
         if (userName.isEmpty()  || email.isEmpty() || pw.isEmpty()){
             new Alert(Alert.AlertType.ERROR,"Fill the Details").show();
-            txtUserName.requestFocus();
             return;
         }
 

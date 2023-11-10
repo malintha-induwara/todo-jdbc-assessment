@@ -62,9 +62,6 @@ public class DueTaskFormController {
         try {
             ObservableList<DueTm> obList = FXCollections.observableArrayList();
 
-            // here you need to write the code to load the tasks from database table and add them to the obList.
-            // this is just a sample data set.
-
             List<TasksDto> dtoList = tasksModel.loadDueTasks(String.valueOf(LocalDate.now()));
 
             for (TasksDto dto : dtoList) {
@@ -72,12 +69,10 @@ public class DueTaskFormController {
                 obList.add(tm);
             }
 
-            // reason for using a for loop here is to add event handlers to the buttons in the table
             for (int i = 0; i < obList.size(); i++) {
 
                 final int index = i;
                 obList.get(i).getBtnComplete().setOnAction(event -> {
-                    // here you need to write the code to mark the task as complete on database table
 
                     int taskId = dtoList.get(index).getTaskId();
                     markComplete(taskId);
@@ -93,7 +88,6 @@ public class DueTaskFormController {
 
                     refreshTable();
 
-                    // here you need to write the code to delete the task from FX table and database table as well.
 
                 });
             }
@@ -127,7 +121,6 @@ public class DueTaskFormController {
     private void markComplete(int taskId) {
 
         try {
-
             boolean isMarked = tasksModel.markComplete(taskId);
 
             if (isMarked){
