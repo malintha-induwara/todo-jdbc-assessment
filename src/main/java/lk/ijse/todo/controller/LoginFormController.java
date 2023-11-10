@@ -43,8 +43,6 @@ public class LoginFormController {
             }
 
             String email= usersModel.getLoggedUserEmail(userName);
-
-            System.out.println(email);
             UsersModel.loggedUserEmail = email;
             navigateToMainWindow();
 
