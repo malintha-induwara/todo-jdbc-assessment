@@ -10,11 +10,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.todo.model.UsersModel;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class LoginFormController {
     @FXML
@@ -24,12 +27,26 @@ public class LoginFormController {
     @FXML
     private AnchorPane root;
 
+    private final UsersModel usersModel = new UsersModel();
+
     public void btnLoginOnAction(ActionEvent actionEvent) throws IOException {
         String userName = txtUserName.getText();
         String pw = txtPassword.getText();
 
+        try {
+            boolean isLoginSuccess = usersModel.checkLogin(userName, pw);
+
+            if (!isLoginSuccess){
+                new Alert(Alert.AlertType.ERROR, "Invalid UserName Or Password").show();
+                return;
+            }
+            navigateToMainWindow();
+
+        }catch (SQLException e){
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
         //after login success, system should navigate to the dashboard
-        navigateToMainWindow();
+
     }
 
     private void navigateToMainWindow() throws IOException {

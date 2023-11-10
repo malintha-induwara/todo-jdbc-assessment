@@ -51,6 +51,8 @@ public class SignupFormController {
             boolean isSaved = usersModel.saveUser(dto);
 
             if (isSaved){
+
+                clearFields();
                 new Alert(Alert.AlertType.CONFIRMATION,"User is Saved").show();
             }
 
@@ -61,6 +63,12 @@ public class SignupFormController {
 
 
 
+    }
+
+    private void clearFields() {
+        txtUserName.clear();
+        txtEmail.clear();
+        txtPw.clear();
     }
 
     @FXML

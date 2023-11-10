@@ -22,5 +22,18 @@ public class UsersModel {
         return pstm.executeUpdate() > 0;
 
     }
+
+    public boolean checkLogin(String userName, String pw) throws SQLException {
+
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT * FROM users WHERE name = ? AND password = ?";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+        pstm.setString(1, userName);
+        pstm.setString(2, pw);
+
+        return pstm.executeQuery().next();
+
+    }
 }
 
