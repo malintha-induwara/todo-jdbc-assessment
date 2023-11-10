@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class TasksDto {
-    private int task_id;
+    private int taskId;
 
     private String email;
 

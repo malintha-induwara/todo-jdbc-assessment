@@ -27,6 +27,7 @@ public class LoginFormController {
     @FXML
     private AnchorPane root;
 
+
     private final UsersModel usersModel = new UsersModel();
 
     public void btnLoginOnAction(ActionEvent actionEvent) throws IOException {
@@ -40,12 +41,17 @@ public class LoginFormController {
                 new Alert(Alert.AlertType.ERROR, "Invalid UserName Or Password").show();
                 return;
             }
+
+            String email= usersModel.getLoggedUserEmail(userName);
+
+            System.out.println(email);
+            UsersModel.loggedUserEmail = email;
             navigateToMainWindow();
 
         }catch (SQLException e){
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
-        //after login success, system should navigate to the dashboard
+
 
     }
 

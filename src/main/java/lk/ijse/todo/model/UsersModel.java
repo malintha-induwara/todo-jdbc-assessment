@@ -5,9 +5,12 @@ import lk.ijse.todo.dto.UsersDto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UsersModel {
+
+    public static String loggedUserEmail;
     public boolean saveUser(UsersDto dto) throws SQLException {
 
         Connection connection = DbConnection.getInstance().getConnection();
@@ -33,6 +36,21 @@ public class UsersModel {
         pstm.setString(2, pw);
 
         return pstm.executeQuery().next();
+
+    }
+
+    public String getLoggedUserEmail(String userName) throws SQLException {
+
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT email FROM users WHERE name = ?";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+        pstm.setString(1, userName);
+
+        ResultSet resultSet = pstm.executeQuery();
+
+        resultSet.next();
+        return resultSet.getString(1);
 
     }
 }
