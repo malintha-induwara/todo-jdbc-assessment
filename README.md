@@ -1,4 +1,4 @@
-# GDSE-  Database Programming (JDBC) Module Final CourceWork.
+# GDSE-  Database Programming (JDBC) Module Final CourseWork.
 
 ### Table of content. 🚩
 
