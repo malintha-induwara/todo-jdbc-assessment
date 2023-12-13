@@ -1,4 +1,4 @@
-# IJSE DATABASE PROGRAMMING FINAL
+# GDSE-  Database Programming (JDBC) Module Final CourceWork.
 
 ### Table of content. 🚩
 
